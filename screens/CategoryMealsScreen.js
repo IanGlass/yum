@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const CategoriesScreen = () => {
+const CategoryMealScreen = () => {
 
   return (
     <View style={styles.screen}>
-      <Text>The Categories Screen</Text>
+      <Text>The Category Meal Screen</Text>
     </View>
   );
 };
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CategoriesScreen;
+export default CategoryMealScreen;
