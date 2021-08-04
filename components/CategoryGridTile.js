@@ -3,23 +3,32 @@ import {
   TouchableOpacity,
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Platform,
+  TouchableNativeFeedback
 } from 'react-native';
 
 const CategoryGridTile = ({ title, onSelect, color }) => {
 
+  let TouchableComponent = TouchableOpacity;
+  if (Platform.OS === 'android' && Platform.Version >= 21) {
+    TouchableComponent = TouchableNativeFeedback;
+  }
+
   return (
-    <TouchableOpacity
-      style={styles.gridItem}
-      onPress={onSelect}
-    >
-      <View style={{
-        ...styles.container,
-        ...{ backgroundColor: color }
-      }}>
-        <Text style={styles.title} numberOfLines={2}>{title}</Text>
-      </View>
-    </TouchableOpacity>
+    <View style={styles.gridItem} >
+      <TouchableComponent
+        style={{ flex: 1 }}
+        onPress={onSelect}
+      >
+        <View style={{
+          ...styles.container,
+          ...{ backgroundColor: color }
+        }}>
+          <Text style={styles.title} numberOfLines={2}>{title}</Text>
+        </View>
+      </TouchableComponent>
+    </View>
   );
 };
 
@@ -27,7 +36,9 @@ const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
     margin: 15,
-    height: 150
+    height: 150,
+    borderRadius: 10,
+    overflow: 'hidden'
   },
   container: {
     flex: 1,
