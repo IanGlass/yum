@@ -18,7 +18,7 @@ const CategoryMealScreen = ({ navigation }) => {
       complexity={itemData.item.complexity}
       affordability={itemData.item.affordability}
       imageUrl={itemData.item.imageUrl}
-      onSelectMeal={() => { }}
+      onSelectMeal={() => { navigation.navigate('MealDetails', { mealId: itemData.item.id }) }}
     />
   )
 
