@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createAppContainer } from 'react-navigation';
@@ -18,6 +19,12 @@ import Colors from '../constants/Colors';
 const defaultStackOptions = {
   headerStyle: {
     backgroundColor: Platform.OS === 'android' ? Colors.primary : 'white'
+  },
+  headerTitleStyle: {
+    fontFamily: 'open-sans-bold'
+  },
+  headerBackTitleStyle: {
+    fontFamily: 'open-sans'
   },
   headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary
 }
@@ -48,7 +55,8 @@ const tabScreenConfig = {
           color={tabInfo.tintColor}
         />
       ),
-      tabBarColor: Colors.primary
+      tabBarColor: Colors.primary,
+      tabBarLabel: Platform.OS === 'android' ? <Text style={{ fontFamily: 'open-sans' }}>Meals</Text> : 'Meals'
     },
   },
   Favourites: {
@@ -61,7 +69,8 @@ const tabScreenConfig = {
           color={tabInfo.tintColor}
         />
       ),
-      tabBarColor: Colors.accent
+      tabBarColor: Colors.accent,
+      tabBarLabel: Platform.OS === 'android' ? <Text style={{ fontFamily: 'open-sans' }}>Favourites</Text> : 'Favourites'
     }
   }
 };
@@ -70,10 +79,16 @@ const MealsFavTabNavigator =
   Platform.OS === 'android'
     ? createMaterialBottomTabNavigator(tabScreenConfig, {
       activeTintColor: Colors.accent,
-      shifting: true
+      shifting: true,
+      barStyle: {
+        backgroundColor: Colors.primary
+      }
     })
     : createBottomTabNavigator(tabScreenConfig, {
       tabBarOptions: {
+        labelStyle: {
+          fontFamily: 'open-sans-bold'
+        },
         activeTintColor: Colors.accent
       }
     });
