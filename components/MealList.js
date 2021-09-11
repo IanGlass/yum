@@ -13,7 +13,10 @@ const MealList = ({ listData, navigation }) => {
       complexity={itemData.item.complexity}
       affordability={itemData.item.affordability}
       imageUrl={itemData.item.imageUrl}
-      onSelectMeal={() => navigation.navigate('MealDetails', { mealId: itemData.item.id })}
+      onSelectMeal={() => navigation.navigate('MealDetails', { 
+        mealId: itemData.item.id,
+        mealTitle: itemData.item.title
+      })}
     />
   )
 
