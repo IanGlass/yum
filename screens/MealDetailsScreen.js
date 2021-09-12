@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
+import _ from 'lodash';
 import { ScrollView, Image, View, Text, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -23,6 +24,7 @@ const MealDetailsScreen = ({
 }) => {
   const mealId = navigation.getParam('mealId');
   const mealDetails = meals.find((meal) => meal.id === mealId);
+  const isFavourite = _.some(favouriteMeals, (meal) => meal.id === mealId);
 
   const toggleFavouriteHandler = useCallback(() => {
     toggleFavourite(mealId)
@@ -31,6 +33,10 @@ const MealDetailsScreen = ({
   useEffect(() => {
     navigation.setParams({ 'toggleFav': toggleFavouriteHandler });
   }, [toggleFavouriteHandler]);
+
+  useEffect(() => {
+    navigation.setParams({ isFavourite });
+  }, [isFavourite]);
 
   return (
     <ScrollView>
@@ -57,7 +63,7 @@ MealDetailsScreen.navigationOptions = (navigationData) => {
       >
         <Item
           title='Favourite'
-          iconName='ios-star'
+          iconName={navigationData.navigation.getParam('isFavourite') ? 'ios-star' : 'ios-star-outline'}
           onPress={navigationData.navigation.getParam('toggleFav')}
         />
       </HeaderButtons>

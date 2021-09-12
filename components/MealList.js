@@ -1,9 +1,12 @@
+import _ from 'lodash';
 import React from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import MealItem from '../components/MealItem';
 
 const MealList = ({ listData, navigation }) => {
+  const favouriteMeals = useSelector((state) => state.meals.favouriteMeals);
 
   const renderItem = (itemData) => (
     <MealItem
@@ -14,7 +17,8 @@ const MealList = ({ listData, navigation }) => {
       imageUrl={itemData.item.imageUrl}
       onSelectMeal={() => navigation.navigate('MealDetails', {
         mealId: itemData.item.id,
-        mealTitle: itemData.item.title
+        mealTitle: itemData.item.title,
+        'isFavourite': _.some(favouriteMeals, (meal) => meal.id === itemData.item.id)
       })}
     />
   )
