@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { ActionSheetIOS } from 'react-native';
 
 import { MEALS } from '../../data/dummy-data';
 
@@ -20,6 +21,26 @@ const mealsReducer = (state = initialState, action) => {
       return {
         ...state,
         favouriteMeals: _.concat(state.favouriteMeals, _.find(state.meals, (meal) => meal.id === action.mealId))
+      }
+
+    case 'SET_FILTERS':
+      return {
+        ...state,
+        filteredMeals: _.filter(state.meals, (meal) => {
+          if (action.filters.glutenFree && !meal.isGlutenFree) {
+            return false;
+          }
+          if (action.filters.lactoseFree && !meal.isLactoseFree) {
+            return false;
+          }
+          if (action.filters.vegetarian && !meal.isVegetarian) {
+            return false;
+          }
+          if (action.filters.vegan && !meal.isVegan) {
+            return false;
+          }
+          return true;
+        })
       }
 
     default:

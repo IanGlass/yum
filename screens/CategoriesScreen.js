@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  FlatList,
-  StyleSheet,
-} from 'react-native';
+import { FlatList } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../components/HeaderButton';
@@ -30,7 +27,7 @@ const CategoriesScreen = ({ navigation }) => {
 
   return (
     <FlatList
-      keyExtractor={(item, index) => item.id}
+      keyExtractor={(item) => item.id}
       data={CATEGORIES}
       renderItem={renderGridItem}
       numColumns={2}
@@ -49,13 +46,5 @@ CategoriesScreen.navigationOptions = (navigationData) => {
     )
   }
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
 
 export default CategoriesScreen;
