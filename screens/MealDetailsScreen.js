@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { ScrollView, Image, View, Text, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../components/HeaderButton';
 import DefaultText from '../components/DefaultText';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
+import { toggleFavourite } from '../store/actions/meals';
 
 const ListItem = ({ children }) => {
   return (
@@ -14,10 +15,22 @@ const ListItem = ({ children }) => {
   )
 }
 
-const MealDetailsScreen = ({ navigation }) => {
-  const availableMeals = useSelector(state => state.meals.meals);
+const MealDetailsScreen = ({
+  navigation,
+  meals,
+  favouriteMeals,
+  toggleFavourite,
+}) => {
+  const mealId = navigation.getParam('mealId');
+  const mealDetails = meals.find((meal) => meal.id === mealId);
 
-  const mealDetails = availableMeals.find((meal) => meal.id === navigation.getParam('mealId'));
+  const toggleFavouriteHandler = useCallback(() => {
+    toggleFavourite(mealId)
+  }, [mealId]);
+
+  useEffect(() => {
+    navigation.setParams({ 'toggleFav': toggleFavouriteHandler });
+  }, [toggleFavouriteHandler]);
 
   return (
     <ScrollView>
@@ -45,7 +58,7 @@ MealDetailsScreen.navigationOptions = (navigationData) => {
         <Item
           title='Favourite'
           iconName='ios-star'
-          onPress={() => console.log('mark as favourite')}
+          onPress={navigationData.navigation.getParam('toggleFav')}
         />
       </HeaderButtons>
     )
@@ -76,4 +89,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MealDetailsScreen;
+const mapStateToProps = state => ({
+  meals: state.meals.meals,
+  favouriteMeals: state.meals.favouriteMeals
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleFavourite: (mealId) => dispatch(toggleFavourite(mealId))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MealDetailsScreen);
